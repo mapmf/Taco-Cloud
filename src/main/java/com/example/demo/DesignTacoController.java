@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,28 @@ public class DesignTacoController {
 	@GetMapping
 	public String showDesignForm(Model model) {
 		
+		addIngredientsToModel(model);
+		
+		model.addAttribute("taco", new Taco());
+		
+		return "design";
+	}
+	
+	@PostMapping
+	public String processDesign(Model model, @Valid Taco design, Errors errors) {
+		
+		if(errors.hasErrors()) {
+			
+			addIngredientsToModel(model);	
+			
+			return "design";
+		}
+		
+		log.info("Processing design: " + design);
+		return "redirect:/orders/current";
+	}
+
+	private void addIngredientsToModel(Model model) {
 		List<Ingredient> ingredients = Arrays.asList(
 				new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
 				new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
@@ -40,15 +65,6 @@ public class DesignTacoController {
 			model.addAttribute(type.toString().toLowerCase(),
 			filterByType(ingredients, type));
 		}
-		model.addAttribute("design", new Taco());
-		
-		return "design";
-	}
-	
-	@PostMapping
-	public String processDesign(Taco taco) {
-		log.info("Processing design: " + taco);
-		return "redirect:/orders/current";
 	}
 
 	private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
