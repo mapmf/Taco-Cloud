@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.model;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.Ingredient.Type;
+import com.example.demo.model.Ingredient;
+import com.example.demo.model.Taco;
+import com.example.demo.model.Ingredient.Type;
 
 import lombok.extern.slf4j.Slf4j;
 
