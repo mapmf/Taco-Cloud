@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.Date;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -8,10 +10,15 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class Order {
+
+	private long id;
+	
+	private Date placedAt;
 	
 	@NotBlank(message = "Name is required")
 	private String name;
