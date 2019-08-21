@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.model.Ingredient;
 import com.example.demo.model.Taco;
 import com.example.demo.persistence.TacoRepository;
 
@@ -40,9 +41,9 @@ public class JdbcTacoRepository implements TacoRepository{
 		
 		taco.setId(tacoId);
 		
-		List<String> ingredients = taco.getIngredients();
+		List<Ingredient> ingredients = taco.getIngredients();
 		
-		for (String ingredient : ingredients) {
+		for (Ingredient ingredient : ingredients) {
 			
 			saveIngredientToTaco(tacoId, ingredient);
 		}
@@ -50,11 +51,11 @@ public class JdbcTacoRepository implements TacoRepository{
 		return taco;
 	}
 
-	private void saveIngredientToTaco(long tacoId, String ingredient) {
+	private void saveIngredientToTaco(long tacoId, Ingredient ingredient) {
 		Map<String, Object> values = new HashMap<String, Object>();
 		
 		values.put("taco", tacoId);
-		values.put("ingredient", ingredient);
+		values.put("ingredient", ingredient.getId());
 		
 		tacoIngredientInsert.execute(values);
 	}
