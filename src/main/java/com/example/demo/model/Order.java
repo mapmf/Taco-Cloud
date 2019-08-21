@@ -1,10 +1,16 @@
 package com.example.demo.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -12,17 +18,21 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
+@Entity
+@Table(name = "Taco_Order")
 public class Order {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	private Date placedAt;
 	
+	@ManyToMany(targetEntity = Taco.class)
 	private List<Taco> tacoList;
 	
 	@NotBlank(message = "Name is required")
@@ -57,6 +67,11 @@ public class Order {
 		
 		this.tacoList.add(taco);
 		
+	}
+	
+	@PrePersist
+	void placedAt() {
+		placedAt = new Date();
 	}
 	
 }
