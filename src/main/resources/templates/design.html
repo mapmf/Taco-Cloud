@@ -11,7 +11,7 @@ xmlns:th="http://www.thymeleaf.org">
 		<form method="POST" th:action="@{/logout}">
 			<input type="submit" value="Logout"/>
 		</form>
-		<form method="POST" th:object="${taco}">
+		<form method="POST" th:object="${taco}" th:action="@{/design}">
 			<div th:if="${#fields.hasErrors()}">
 				<span class="validationError"> 
 					Please correct the problems	below and resubmit. 

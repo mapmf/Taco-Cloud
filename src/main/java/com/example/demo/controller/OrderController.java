@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.example.demo.model.Order;
+import com.example.demo.model.User;
 import com.example.demo.persistence.OrderRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,32 +26,35 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderController {
 
 	private OrderRepository orderRepository;
-	
+
 	@Autowired
 	public OrderController(OrderRepository orderRepository) {
 		this.orderRepository = orderRepository;
 	}
-	
+
 	@GetMapping("/current")
 	public String orderForm(Model model) {
-				
+
 		return "orderForm";
 	}
-	
+
 	@PostMapping
-	public String processOrder(@Valid Order order, Errors errors, SessionStatus sessionStatus) {
-		
-		if(errors.hasErrors()) {
+	public String processOrder(@Valid Order order, Errors errors, SessionStatus sessionStatus,
+			@AuthenticationPrincipal User user) {
+
+		if (errors.hasErrors()) {
 			return "orderForm";
 		}
-		
+
 		log.info("Order submitted: " + order);
+
+		order.setUser(user);
 		
 		orderRepository.save(order);
-		
+
 		sessionStatus.setComplete();
-		
+
 		return "redirect:/";
 	}
-	
+
 }
