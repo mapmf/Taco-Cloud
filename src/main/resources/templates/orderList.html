@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Taco Cloud</title>
+		<link rel="stylesheet" th:href="@{/styles.css}" />
+	</head>
+	<body>
+		<a th:href="@{/}"	id="another">Go to home</a>
+		<table class="table table-striped">
+	        <tr>
+	            <th>Placed At</th>
+	            <th>Taco Qtd</th>
+	        </tr>
+	        <tr th:each="order : ${orders}">
+	            <td th:text="${order.placedAt}"></td>
+	            <td th:text="${#arrays.length(order.tacoList)}"></td>
+	        </tr>
+    	</table>
+		
+	</body>
+</html>
