@@ -8,6 +8,7 @@ import com.example.demo.model.Taco;
 
 public interface TacoRepository extends PagingAndSortingRepository<Taco, Long>{
 
-	Page<Taco>findAll(Pageable page);
+	Page<Taco> findAll(Pageable page);
+	
 
 }
