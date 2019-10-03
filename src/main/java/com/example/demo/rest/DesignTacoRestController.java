@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Taco;
 import com.example.demo.persistence.TacoRepository;
+import com.example.demo.rest.util.TacoResource;
+import com.example.demo.rest.util.TacoResourceAssembler;
 
 @CrossOrigin
 @RestController
@@ -39,13 +41,17 @@ public class DesignTacoRestController {
 	}
 
 	@GetMapping("/recent")
-	public Resources<Resource<Taco>> recentTacos() {
+	public Resources<TacoResource> recentTacos() {
 		PageRequest page = PageRequest.of(0, 12, Sort.by("createdAt").descending());
 
 		List<Taco> tacoList = tacoRepository.findAll(page).getContent();
 
-		Resources<Resource<Taco>> recentResources = Resources.wrap(tacoList);
+		TacoResourceAssembler assembler = new TacoResourceAssembler();
+		
+		List<TacoResource> tacoResources = assembler.toResources(tacoList);
 
+		Resources<TacoResource> recentResources = new Resources<TacoResource>(tacoResources);
+		
 		recentResources
 			.add(linkTo(methodOn(DesignTacoRestController.class).recentTacos())
 			.withRel("recents"));
@@ -53,7 +59,7 @@ public class DesignTacoRestController {
 		return recentResources;
 	}
 
-	private ControllerLinkBuilder linkTo(Resources<Resource<Taco>> resources) {
+	private ControllerLinkBuilder linkTo(Resources<TacoResource> resources) {
 		return ControllerLinkBuilder.linkTo(resources);
 	}
 
