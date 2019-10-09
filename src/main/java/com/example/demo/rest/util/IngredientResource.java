@@ -10,16 +10,17 @@ import lombok.Getter;
 public class IngredientResource extends ResourceSupport{
 
 	@Getter
-	private final String name;
-	
-	@Getter
 	private Type type;
-	
+
+	@Getter
+	private String name;
+
 	public IngredientResource(Ingredient ingredient) {
-	
-		name = ingredient.getName();
 		
-		type = ingredient.getType();
+		this.name = ingredient.getName();
+		this.type = ingredient.getType();
+		
+		
 	}
 	
 }

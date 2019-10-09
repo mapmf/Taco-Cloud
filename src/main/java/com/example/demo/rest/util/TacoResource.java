@@ -12,21 +12,19 @@ import lombok.Getter;
 
 public class TacoResource extends ResourceSupport{
 
-	private static final IngredientResourceAssembler ingredientAssembler = new IngredientResourceAssembler();
-	
 	@Getter
 	private final String name;
 	
 	@Getter
-	private final Date createAt;
-
+	private final Date createdAt;
+	
 	@Getter
-	private final List<IngredientResource> ingredients;
+	private final List<Ingredient> ingredients;
 	
 	public TacoResource(Taco taco) {
 
-		name = taco.getName();
-		createAt = taco.getCreatedAt();
-		ingredients = ingredientAssembler.toResources(taco.getIngredients());
+		this.name = taco.getName();
+		this.createdAt = taco.getCreatedAt();
+		this.ingredients = taco.getIngredients();
 	}
 }
