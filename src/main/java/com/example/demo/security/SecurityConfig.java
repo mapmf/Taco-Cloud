@@ -38,11 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.csrf().disable().authorizeRequests()
-				/*
-				 * .antMatchers("/design/**", "/orders/**") .access("hasRole('USER')")
-				 */
-			.antMatchers("/", "/**")
-				.access("permitAll")
+			
+			.antMatchers("/design/**", "/orders/**", "/rest/**") .access("hasRole('USER')")
+				
+				// .antMatchers("/", "/**") 
+				//.access("permitAll")
 			.and()
 			.formLogin()
 			.loginPage("/login")
